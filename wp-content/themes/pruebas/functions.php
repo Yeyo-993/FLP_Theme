@@ -1,50 +1,17 @@
 <?php
 
-function enqueue_style(){
+$atr_dir_path = (substr(get_template_directory(), -1) === '/') ? get_template_directory() : get_template_directory() . '/';
+$atr_dir_uri = (substr(get_template_directory_uri(), -1) === '/') ? get_template_directory_uri() : get_template_directory_uri() . '/';
 
-    wp_enqueue_style(
-        'normalize',
-        get_template_directory_uri() . '/public/css/normalize.css',
-        array(),
-        '8.0.1',
-        'all'
-    );
+define('ATR_DIR_PATH', $atr_dir_path);
+define('ATR_DIR_URI', $atr_dir_uri);
 
-    wp_enqueue_style(
-        'public-css',
-        get_template_directory_uri() . '/public/css/style.css',
-        array(),
-        '1.0.0',
-        'all'
-    );
+require_once ATR_DIR_PATH . 'includes/class-atr-master.php';
 
-    wp_enqueue_style(
-        'bootstrap-css',
-        get_template_directory_uri() . '/helpers/bootstrap-5.3.0/css/bootstrap.min.css',
-        array(),
-        '5.3.0',
-        'all'
-    );
 
+function atr_run_master() {
+    $atr_master = new ATR_Master();
+    $atr_master->run();
 }
-add_action('wp_enqueue_scripts', 'enqueue_style');
+atr_run_master();
 
-function enqueue_scripts() {
-
-    wp_enqueue_script(
-        'public-js',
-        get_template_directory_uri() . '/public/js/atr-public.js',
-        ['jquery', 'bootstrap-min'],
-        '1.0.0',
-        true
-    );
-
-    wp_enqueue_script(
-        'bootstrap-min',
-        get_template_directory_uri() . '/helpers/bootstrap-5.3.0/js/bootstrap.min.js',
-        ['jquery'],
-        '5.3.0',
-        true
-    );
-}
-add_action('wp_enqueue_scripts', 'enqueue_scripts');
