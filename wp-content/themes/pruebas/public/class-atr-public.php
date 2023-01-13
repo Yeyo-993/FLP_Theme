@@ -60,4 +60,24 @@ class ATR_Public {
         );
     }
 
+
+    public function atr_menu_frontend() {
+
+        // Registrar el menu
+        register_nav_menus([
+            'menu_principal' => __('Menu Principal', 'pruebas')
+        ]);
+
+        //Array para añadir las propiedades del logo
+        $logo = [
+            'width' => 230,
+            'height' => 80,
+            'flex-width' => true,
+            'flex-height' => true,
+            'header-text' => array('pruebas', 'un sitio web de pruebas')
+        ];
+
+        add_theme_support('custom-logo', $logo);
+
+    }
 }
