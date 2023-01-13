@@ -24,7 +24,7 @@ class ATR_Public {
     
         wp_enqueue_style(
             'public-css',
-            ATR_DIR_URI . '/public/css/style.css',
+            ATR_DIR_URI . '/public/css/atr-public.css',
             array(),
             '1.0.0',
             'all'
