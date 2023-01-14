@@ -11,6 +11,24 @@
                 ?>
             </a>
         </div>
+
+        <div class="col-12">
+            <div class="title-footer">
+                <h4>Redes Sociales</h4>
+            </div>
+            <div class="iconos-redes-sociales">
+                <?php
+
+                    $args = [
+                        'theme_location' => 'menu_redes_sociales',
+                        'menu_class'     => 'menu-sociales'
+                    ];
+                    wp_nav_menu($args);
+
+                ?>
+            </div>
+        </div>
+
         <div class="col-12 text-footer">
             FERRETERIA LUIS PENAGOS <?php echo date_i18n('Y'); ?>
         </div>
