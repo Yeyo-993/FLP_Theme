@@ -7,6 +7,7 @@ class ATR_Master {
     protected $version;
 
     public function __construct() {
+
         $this->theme_name = "FLP_Pruebas";
         $this->version = "1.0.0";
 
@@ -44,23 +45,60 @@ class ATR_Master {
          * La clase responsable de definir todas la acciones del lado del cliente o publico que visitan el sitio.
          */
         require_once ATR_DIR_PATH . 'public/class-atr-public.php';
+
+        /**
+         * La clase responsable de crear nuevos widgets.
+         * widgets personalizados para un sidebar
+         */
+        require_once ATR_DIR_PATH . 'includes/class-atr-widgets.php';
+
+        /**
+         * La clase responsable de crear los cpt
+         * Custom Post Type
+         */
+        require_once ATR_DIR_PATH . 'includes/class-atr-cpt.php';
+
     }
 
     private function set_idiomas() {
+
         $atr_i18n = new ATR_i18n();
         $this->cargador->add_action('plugins_loaded', $atr_i18n, 'load_theme_textdomain');
+
+    }
+
+    public function registro_widgets() {
+
+        register_widget('ATR_Widgets');
+    
     }
 
     private function cargar_instancias() {
+
         /**
          * Crear una instancia del cargador que se utilizara para registrar los ganchos con WordPress.
          */
         $this->cargador   = new ATR_Cargador;
-        $this->atr_admin  = new ATR_Admin($this->get_theme_name(), $this->get_version());
-        $this->atr_public = new ATR_Public($this->get_theme_name(), $this->get_version());
+        $this->atr_admin  = new ATR_Admin( $this->get_theme_name(), $this->get_version() );
+        $this->atr_public = new ATR_Public( $this->get_theme_name(), $this->get_version() );
+        $this->atr_cpt    = new ATR_CPT();
+
     }
 
     private function definir_admin_hooks() {
+
+        //Encolamiento de archivos de css y js
+        $this->cargador->add_action('admin_enqueue_scripts', $this->atr_admin, 'enqueue_styles');
+        $this->cargador->add_action('admin_enqueue_scripts', $this->atr_admin, 'enqueue_scripts');
+
+        $this->cargador->add_action('admin_menu', $this->atr_admin, 'add_menu');
+
+        //Ganchos para widgets
+        $this->cargador->add_action('widgets_init', $this, 'registro_widgets');
+
+        //Ganchos para CPT
+        $this->cargador->add_action('init', $this->atr_cpt, 'atr_cpt_habitaciones');
+        $this->cargador->add_action('init', $this->atr_cpt, 'atr_taxonomia_habitaciones');
 
     }
 
@@ -70,7 +108,10 @@ class ATR_Master {
         $this->cargador->add_action('wp_enqueue_scripts', $this->atr_public, 'enqueue_scripts');
 
         //add menu frontend
-        $this->cargador->add_action('init', $this->atr_public, 'atr_menu_frontend');
+        $this->cargador->add_action('init', $this->atr_public, 'atr_theme_support');
+
+        //Registro sidebar
+        $this->cargador->add_action('init', $this->atr_public, 'atr_register_sidebars');
     }
 
     public function get_theme_name() {

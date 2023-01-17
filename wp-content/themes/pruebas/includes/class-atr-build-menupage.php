@@ -14,7 +14,7 @@ class ATR_Build_Menupage{
         $this->submenus = [];
     }
 
-    public function add_menu_page($pageTitle, $menuTitle, $capability, $menuSlug, $functionName, $iconUrl = '', $position = null ) {
+    public function add_menu_page( $pageTitle, $menuTitle, $capability, $menuSlug, $functionName, $iconUrl = '', $position = null ) {
 
         $this->menus = $this->add_menu( $this->menus, $pageTitle, $menuTitle, $capability, $menuSlug, $functionName, $iconUrl, $position );
 
@@ -23,37 +23,56 @@ class ATR_Build_Menupage{
     public function add_menu( $menus, $pageTitle, $menuTitle, $capability, $menuSlug, $functionName, $iconUrl, $position ) {
 
         $menus[] = [
-            'pageTitle'   => $pageTitle,
-            'menuTitle'   => $menuTitle,
-            'capability'  => $capability,
-            'menuSlug'    => $menuSlug,
-            'function'    => $functionName,
-            'iconUrl'     => $iconUrl,
-            'position'    => $position
+            'pageTitle'    => $pageTitle,
+            'menuTitle'    => $menuTitle,
+            'capability'   => $capability,
+            'menuSlug'     => $menuSlug,
+            'functionName' => $functionName,
+            'iconUrl'      => $iconUrl,
+            'position'     => $position
         ];
 
         return $menus;
 
     }
 
-    public function add_submenu_page($parentSlug , $pageTitle, $subMenuTitle, $capability, $subMenuSlug, $functionName)
-    {
+    public function add_submenu_page( $parentSlug, $pageTitle, $menuTitle, $capability, $menuSlug, $functionName ) {
 
-        $this->submenus = $this->add_submenu( $this->submenus, $pageTitle, $subMenuTitle, $capability, $subMenuSlug, $functionName );
+        $this->submenus = $this->add_submenu( $this->submenus, $parentSlug, $pageTitle, $menuTitle, $capability, $menuSlug, $functionName );
 
     }
 
-    public function add_submenu($submenus, $parentSlug, $pageTitle, $subMenuTitle, $capability, $subMenuSlug, $functionName)
-    {
+    public function add_submenu( $submenus, $parentSlug, $pageTitle, $menuTitle, $capability, $menuSlug, $functionName ) {
 
         $submenus[] = [
-            'pageTitle'   => $pageTitle,
-            'menuTitle'   => $subMenuTitle,
-            'capability'  => $capability,
-            'menuSlug'    => $subMenuSlug,
-            'function'    => $functionName
+            'parentSlug'   => $parentSlug,
+            'pageTitle'    => $pageTitle,
+            'menuTitle'    => $menuTitle,
+            'capability'   => $capability,
+            'menuSlug'     => $menuSlug,
+            'functionName' => $functionName
         ];
 
         return $submenus;
+
     }
+
+    public function run() {
+
+        foreach ( $this->menus as $menus ) {
+
+            extract( $menus, EXTR_OVERWRITE );
+
+            add_menu_page( $pageTitle, $menuTitle, $capability, $menuSlug, $functionName, $iconUrl, $position );
+
+        }
+
+        foreach ($this->submenus as $submenus) {
+
+            extract($submenus, EXTR_OVERWRITE);
+
+            add_submenu_page( $parentSlug, $pageTitle, $menuTitle, $capability, $menuSlug, $functionName );
+        }
+    }
+
 }

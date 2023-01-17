@@ -25,7 +25,7 @@
     <?php wp_head(); ?>
 </head>
 
-<body>
+<body <?php body_class(); ?>>
     <div class="container-fluid bg-color-container">
         <div class="container">
             <nav class="navbar navbar-expand-lg">

@@ -94,7 +94,10 @@ class ATR_Public {
     }
 
 
-    public function atr_menu_frontend() {
+    /**
+     * Aqui cargamos alguna funciones para ajustar el menu del frontend
+     */
+    public function atr_theme_support() {
 
         // Registrar el menu
         register_nav_menus([
@@ -104,8 +107,8 @@ class ATR_Public {
 
         //Array para añadir las propiedades del logo
         $logo = [
-            'width'       => 210,
-            'height'      => 60,
+            'width'       => 230,
+            'height'      => 80,
             'flex-width'  => true,
             'flex-height' => true,
             'header-text' => array('pruebas', 'un sitio web de pruebas')
@@ -113,6 +116,39 @@ class ATR_Public {
 
         add_theme_support('custom-logo', $logo);
 
+        //Añade la imagen destacada a todas las paginas y post
+        add_theme_support('post-thumbnails');
+
+        //widgets
+        add_theme_support('widgets');
     }
 
+    public function atr_register_sidebars() {
+
+        /**
+         * Sidebar para el blog
+         */
+        register_sidebar( array(
+            'name'          => __('sidebar blog', 'pruebas'),
+            'id'            => 'blog',
+            'description'   => __('Sidebar para el blog', 'pruebas'),
+            'before_widget' => '<div class="%1$s" id="widget-blog">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="widget-blog">',
+            'after_title'   => '</h3>'
+        ));
+
+        /**
+         * Sidebar para la pagina de contacto
+         */
+        register_sidebar(array(
+            'name'          => __('sidebar contacto', 'pruebas'),
+            'id'            => 'contacto',
+            'description'   => __('Sidebar para el contacto', 'pruebas'),
+            'before_widget' => '<div class="%1$s" id="widget-contacto">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="widget-contacto">',
+            'after_title'   => '</h3>'
+        ));
+    }
 }
