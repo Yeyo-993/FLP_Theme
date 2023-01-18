@@ -98,7 +98,7 @@ class ATR_CPT {
             'update_item'       => __('Actualizar Tipo de habitación', 'pruebas'),
             'add_new_item'      => __('Agregar nuevo Tipo de habitación', 'pruebas'),
             'new_item_name'     => __('Nuevo Tipo de habitación', 'pruebas'),
-            'menu_name'         => __('Tipo de habitación', 'pruebas'),
+            'menu_name'         => __('Tipo de habitación', 'pruebas')
         );
 
         $args = array(
@@ -115,6 +115,15 @@ class ATR_CPT {
         );
 
         register_taxonomy('tipo-de-habitacion', $post_types, $args);
+
+    }
+
+    public function atr_metadatos_cpt(){
+
+        //add_post_meta(64, 'mimetadato', 'un valor cualquiera');
+        delete_post_meta(65, 'mimetadato');
+
+        delete_post_meta(65, 'colores');
 
     }
 

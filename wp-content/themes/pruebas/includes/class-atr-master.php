@@ -58,6 +58,16 @@ class ATR_Master {
          */
         require_once ATR_DIR_PATH . 'includes/class-atr-cpt.php';
 
+        /**
+         * La clase responsable de crear los metaboxes
+         */
+        require_once ATR_DIR_PATH . 'includes/class-atr-metaboxes.php';
+
+        /**
+         * La clase responsable de crear consultas a la base de datos
+         */
+        require_once ATR_DIR_PATH . 'includes/class-atr-database.php';
+
     }
 
     private function set_idiomas() {
@@ -78,10 +88,13 @@ class ATR_Master {
         /**
          * Crear una instancia del cargador que se utilizara para registrar los ganchos con WordPress.
          */
-        $this->cargador   = new ATR_Cargador;
-        $this->atr_admin  = new ATR_Admin( $this->get_theme_name(), $this->get_version() );
-        $this->atr_public = new ATR_Public( $this->get_theme_name(), $this->get_version() );
-        $this->atr_cpt    = new ATR_CPT();
+        $this->cargador         = new ATR_Cargador;
+        $this->atr_admin        = new ATR_Admin( $this->get_theme_name(), $this->get_version() );
+        $this->atr_public       = new ATR_Public( $this->get_theme_name(), $this->get_version() );
+        $this->atr_cpt          = new ATR_CPT();
+        $this->atr_metaboxes    = new ATR_Metaboxes;
+        $this->atr_database     = new ATR_Database;
+
 
     }
 
@@ -99,6 +112,11 @@ class ATR_Master {
         //Ganchos para CPT
         $this->cargador->add_action('init', $this->atr_cpt, 'atr_cpt_habitaciones');
         $this->cargador->add_action('init', $this->atr_cpt, 'atr_taxonomia_habitaciones');
+        $this->cargador->add_action('init', $this->atr_cpt, 'atr_metadatos_cpt');
+
+        //Ganchos para metaboxes
+        $this->cargador->add_action('add_meta_boxes', $this->atr_metaboxes, 'atr_add_caja_personalizada');
+        $this->cargador->add_action('save_post', $this->atr_metaboxes, 'atr_save_metacaja_datos');
 
     }
 

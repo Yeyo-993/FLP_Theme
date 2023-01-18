@@ -35,7 +35,11 @@ $rooms = new WP_Query($args);
                 </a>
                 <a href="<?php the_permalink(); ?>" class="rooms-content">
                     <?php the_content(); ?>
+                    <?php 
+                        the_meta();
+                    ?>
                 </a>
+                <?php //Elimine codigo de 'tipo-de-habitacion' ?>
             </div>
         </div>
     <?php endwhile; wp_reset_postdata(); ?>
