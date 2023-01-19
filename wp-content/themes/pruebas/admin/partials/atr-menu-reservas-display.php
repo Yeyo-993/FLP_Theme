@@ -3,7 +3,7 @@
     <?php
 
         $usuarios = new ATR_Database;
-        $usuarios->atr_insert_usuarios();
+        $usuarios->atr_sql_personalizado();
 
     ?>
 </div>
